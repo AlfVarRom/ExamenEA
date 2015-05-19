@@ -5,16 +5,28 @@ function mainController($scope, $http) {
 	$scope.usuarios = {};
 	$scope.selected = false;
 
-
 	//GET LISTA
-	$http.get('http://localhost:3000/users/').success(function(data) {
-		$scope.usuarios = data;
-		$scope.bloquear=false;
-		console.log(data);
-	})
-	.error(function(data) {
-		console.log('Error: ' + data);
-	});
+
+			$http.get('http://localhost:3000/users/').success(function (data) {
+				$scope.usuarios = data;
+				$scope.bloquear = false;
+				console.log(data);
+			})
+				.error(function (data) {
+					console.log('Error: ' + data);
+				});
+
+
+	//GET LISTA edad
+	$scope.orderUser = function() {
+		$http.get('http://localhost:3000/users/age').success(function (data) {
+			$scope.usuarios = data;
+			console.log(data);
+		})
+			.error(function (data) {
+				console.log('Error: ' + data);
+			});
+	}
 
 	//DELETE element
 	$scope.borrarUsuari = function(newUsuario) {
@@ -81,36 +93,8 @@ function mainController($scope, $http) {
 		$scope.bloquear=true;
 		console.log($scope.newUsuario, $scope.selected);
 	};
-
-
-	function TodoController($scope){
-		$scope.filteredTodos=[],
-			$scope.currentPage=1,
-			$scope.numPerPage=10,
-			$scope.maxSize=5;
-		$scope.makeTodos = function(){
-			$scope.todos=[];
-			$http.get('http://localhost:3000/users/').success(function(data) {
-				$scope.usuarios = data;
-				$scope.bloquear=false;
-				console.log(data);
-			})
-				.error(function(data) {
-					console.log('Error: ' + data);
-				});
-			$scope.makeTodos();
-			$scope.numPages= function(){
-				return Math.ceil($scope.todos.length / scope.numPerPage);
-			};
-			$scope.$watch('currentPage + numPerPage', function(){
-				var begin= (($scope.currentPage -1)*$scope.numPerPage),
-					end=begin +$scope.numPerPage;
-
-				scope.filteredTodos=$scope.todos.slice(begin, end);
-
-			});
-		}
-
-
-	}
 }
+
+
+
+

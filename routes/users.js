@@ -120,6 +120,18 @@ module.exports=function(app) {
             }
         });
     }
+   // {"_id":1,"name":1,"username":1,"password":1,"email":1,"age":1,"nation":1,"description":1}
+    //GET events by date
+    findAllUserByAge = function (req, res) {
+        User.find({$query:{},$orderby:{age:-1}},function (err, users) {
+            if (!err) {
+                res.send(users);
+            }
+            else {
+                console.log('ERROR: ' + err);
+            }
+        });
+    };
 
 
 //endpoints
@@ -129,5 +141,6 @@ module.exports=function(app) {
     app.put('/user/:_id', updateUser);
     app.delete('/user/:_id', deleteUser);
     app.get('/user/username/:username', findByUsername)
+    app.get('/users/age',findAllUserByAge )
 
 }
