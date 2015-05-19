@@ -11,8 +11,30 @@ function mainController($scope, $http) {
 				$scope.usuarios = data;
 				$scope.bloquear = false;
 				console.log(data);
-			})
-				.error(function (data) {
+				$scope.filteredTodos = []
+					, $scope.currentPage = 1
+					, $scope.numPerPage = 3
+					, $scope.maxSize = 5;
+
+				$scope.makeTodos = function () {
+					$scope.todos = [];
+					for (i = 1; i <= $scope.usuarios.length; i++) {
+						$scope.todos.push($scope.usuarios[i - 1]);
+					}
+				};
+				$scope.makeTodos();
+				$scope.numPages = function () {
+					return Math.ceil($scope.todos.length / $scope.numPerPage);
+				};
+				$scope.$watch('currentPage + numPerPage', function () {
+					var begin = (($scope.currentPage - 1) * $scope.numPerPage)
+						, end = begin + $scope.numPerPage;
+
+					$scope.filteredTodos = $scope.todos.slice(begin, end);
+					console.log($scope.todos.length);
+				});
+
+			}).error(function (data) {
 					console.log('Error: ' + data);
 				});
 
